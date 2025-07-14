@@ -1,7 +1,16 @@
+import {products} from '../data/products.js'
+import {cart} from '../data/cart.js';
+import {totalQuantityCalc} from '../data/cart.js';
+
 const productGridEl = document.querySelector('.products-grid')
 let productHtml = ''
 let itemPrice = 0
-let  ratingImg =''
+let totalQuantity = 0
+let ratingImg =''
+let resetCartBtn = document.querySelector('.reset-cart')
+resetCartBtn.addEventListener('click', resetCart)
+let cartTotalQuantity = document.querySelector('.cart-quantity')
+cartTotalQuantity.innerHTML = totalQuantityCalc(totalQuantity)
 products.forEach((value, index) =>{
     itemPrice = value.priceCents/100
     itemPrice = itemPrice.toFixed(2)
@@ -29,7 +38,7 @@ products.forEach((value, index) =>{
           </div>
 
           <div class="product-quantity-container">
-            <select>
+            <select class = 'quantity-selector'>
               <option selected value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -50,7 +59,7 @@ products.forEach((value, index) =>{
             Added
           </div>
 
-          <button class="add-to-cart-button button-primary">
+          <button class="add-to-cart-button button-primary" data-product-id="${value.id}">
             Add to Cart
           </button>
         </div>`
@@ -58,20 +67,64 @@ products.forEach((value, index) =>{
 })
 productGridEl.innerHTML+= productHtml
 let addConfirmationEls = document.querySelectorAll('.added-to-cart')
-let addButtonsEl = document.querySelectorAll('.add-to-cart-button')
+let addButtonsEls = document.querySelectorAll('.add-to-cart-button')
+let choseQuantitySelectors = document.querySelectorAll('.quantity-selector')
 
-for (let i = 0;i<addButtonsEl.length;i++){
-  addButtonsEl[i].addEventListener('click', ()=>{
-    confirmationVisible(i)})
 
-}
+addButtonsEls.forEach((button, index)=>{
+    let intervalId
+     
+    button.addEventListener('click',()=>{
+      let addedProductName
+      let addedProductPrice
+      let addedQuantity
+      let matchingProduct
+      let matchingId = button.dataset.productId
 
-function confirmationVisible(index){
-  let timeoutID
-  clearTimeout(timeoutID)
-  addConfirmationEls[index].classList.add('visible-confirmation')
-  timeoutID = setTimeout(()=>{
-    addConfirmationEls[index].classList.remove('visible-confirmation')
-  },2000)
-  
+      addedProductName = products[index].name
+      addedProductPrice = (products[index].priceCents/100).toFixed(2)
+      addedQuantity = choseQuantitySelectors[index].value
+
+      cart.forEach((product)=>{
+          if (product.productId===matchingId){
+          matchingProduct = product
+        }
+        
+      })
+      if(matchingProduct){
+        matchingProduct.quantity = Number(matchingProduct.quantity) + Number(addedQuantity)
+        localStorage.setItem('cart',JSON.stringify(cart)) 
+      }
+      else{
+          cart.push({
+              productId: matchingId,
+              productName: addedProductName,
+              productPrice: addedProductPrice,
+              quantity : addedQuantity})
+          localStorage.setItem('cart',JSON.stringify(cart))    
+         }
+          
+          
+          cartTotalQuantity.innerHTML= totalQuantityCalc(totalQuantity)
+
+      })
+    
+    
+
+    button.addEventListener('click', ()=>{
+      clearInterval(intervalId)  
+      addConfirmationEls[index].style.opacity = 1  
+      intervalId = setInterval(()=>{
+          addConfirmationEls[index].style.opacity = 0
+        },2000)
+    
+  })
+
+})
+
+
+function resetCart(){
+  localStorage.removeItem('cart')
+  totalQuantity = 0
+  cartTotalQuantity.innerHTML = totalQuantity
 }
