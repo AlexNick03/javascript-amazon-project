@@ -1,26 +1,35 @@
+import {products} from '../data/products.js'
+import {cart} from '../data/cart.js';
+import {totalQuantityCalc} from '../data/cart.js';
+import {convretToDollars} from '../utils/price.js'
 let showProductsEl = document.querySelector('.order-summary')
 let cartProdHtml = ''
-cart.foreEach((product)=>{  
-    
-    cartProdHtml +=`  <div class="cart-item-container">
+let currentProd 
+let totalItemCheck = document.querySelector('.return-to-home-link')
+totalItemCheck.innerHTML = cart.length + ' items'
+
+
+cart.forEach((product)=>{  
+    currentProd = products.find(({id})=>id === product.productId)
+
+    cartProdHtml +=`<div class="cart-item-container">
             <div class="delivery-date">
               Delivery date: Tuesday, June 21
             </div>
-
             <div class="cart-item-details-grid">
               <img class="product-image"
-                src="images/products/athletic-cotton-socks-6-pairs.jpg">
+                src="${currentProd.image}">
 
               <div class="cart-item-details">
                 <div class="product-name">
-                  Black and Gray Athletic Cotton Socks - 6 Pairs
+                  ${currentProd.name}
                 </div>
                 <div class="product-price">
-                  $10.90
+                  $${convretToDollars(currentProd.priceCents)}
                 </div>
                 <div class="product-quantity">
                   <span>
-                    Quantity: <span class="quantity-label">2</span>
+                    Quantity: <span class="quantity-label">${product.quantity}</span>
                   </span>
                   <span class="update-quantity-link link-primary">
                     Update
@@ -38,7 +47,7 @@ cart.foreEach((product)=>{
                 <div class="delivery-option">
                   <input type="radio" checked
                     class="delivery-option-input"
-                    name="delivery-option-1">
+                    name="${product.productId}-delivery-option">
                   <div>
                     <div class="delivery-option-date">
                       Tuesday, June 21
@@ -51,7 +60,7 @@ cart.foreEach((product)=>{
                 <div class="delivery-option">
                   <input type="radio"
                     class="delivery-option-input"
-                    name="delivery-option-1">
+                    name="${product.productId}-delivery-option">
                   <div>
                     <div class="delivery-option-date">
                       Wednesday, June 15
@@ -64,7 +73,7 @@ cart.foreEach((product)=>{
                 <div class="delivery-option">
                   <input type="radio"
                     class="delivery-option-input"
-                    name="delivery-option-1">
+                    name="${product.productId}-delivery-option">
                   <div>
                     <div class="delivery-option-date">
                       Monday, June 13
@@ -78,3 +87,4 @@ cart.foreEach((product)=>{
             </div>
           </div>`
 })
+showProductsEl.innerHTML = cartProdHtml

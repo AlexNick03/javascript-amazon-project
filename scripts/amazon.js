@@ -1,6 +1,7 @@
 import {products} from '../data/products.js'
 import {cart} from '../data/cart.js';
 import {totalQuantityCalc} from '../data/cart.js';
+import { convretToDollars } from '../utils/price.js';
 
 const productGridEl = document.querySelector('.products-grid')
 let productHtml = ''
@@ -12,8 +13,7 @@ resetCartBtn.addEventListener('click', resetCart)
 let cartTotalQuantity = document.querySelector('.cart-quantity')
 cartTotalQuantity.innerHTML = totalQuantityCalc(totalQuantity)
 products.forEach((value, index) =>{
-    itemPrice = value.priceCents/100
-    itemPrice = itemPrice.toFixed(2)
+    itemPrice = convretToDollars(value.priceCents)
     ratingImg = '../images/ratings/rating-'+value.rating.stars*10+'.png'
     productHtml += `<div class="product-container">
           <div class="product-image-container">
@@ -70,20 +70,10 @@ let addConfirmationEls = document.querySelectorAll('.added-to-cart')
 let addButtonsEls = document.querySelectorAll('.add-to-cart-button')
 let choseQuantitySelectors = document.querySelectorAll('.quantity-selector')
 
-
-addButtonsEls.forEach((button, index)=>{
-    let intervalId
-     
-    button.addEventListener('click',()=>{
-      let addedProductName
-      let addedProductPrice
-      let addedQuantity
+function addToCart(button, index){
+  let addedQuantity = choseQuantitySelectors[index].value
       let matchingProduct
       let matchingId = button.dataset.productId
-
-      addedProductName = products[index].name
-      addedProductPrice = (products[index].priceCents/100).toFixed(2)
-      addedQuantity = choseQuantitySelectors[index].value
 
       cart.forEach((product)=>{
           if (product.productId===matchingId){
@@ -98,8 +88,6 @@ addButtonsEls.forEach((button, index)=>{
       else{
           cart.push({
               productId: matchingId,
-              productName: addedProductName,
-              productPrice: addedProductPrice,
               quantity : addedQuantity})
           localStorage.setItem('cart',JSON.stringify(cart))    
          }
@@ -107,10 +95,14 @@ addButtonsEls.forEach((button, index)=>{
           
           cartTotalQuantity.innerHTML= totalQuantityCalc(totalQuantity)
 
-      })
-    
-    
+      }
 
+addButtonsEls.forEach((button, index)=>{
+
+    let intervalId  
+    button.addEventListener('click',()=>{
+      addToCart(button,index)
+    })
     button.addEventListener('click', ()=>{
       clearInterval(intervalId)  
       addConfirmationEls[index].style.opacity = 1  
@@ -121,7 +113,6 @@ addButtonsEls.forEach((button, index)=>{
   })
 
 })
-
 
 function resetCart(){
   localStorage.removeItem('cart')
