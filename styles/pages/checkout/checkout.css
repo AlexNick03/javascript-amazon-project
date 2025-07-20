@@ -14,11 +14,7 @@
   margin-right: auto;
 }
 
-.page-title {
-  font-weight: 700;
-  font-size: 22px;
-  margin-bottom: 18px;
-}
+
 
 .checkout-grid {
   display: grid;
@@ -208,4 +204,35 @@
 
   margin-top: 11px;
   margin-bottom: 15px;
+}
+
+.hidden-span {
+  display: none;
+}
+.upper-part {
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+  margin-bottom: 10px;
+  
+  
+}
+.page-title{
+  text-align: center;
+  font-weight: 700;
+  font-size: 22px;
+  align-content: center ;
+}
+.reset-cart{
+  width: 90px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border-radius: 8px;
+  align-self: center;
+
+}
+.input-quantity-value{
+  width: 50px;
+  padding: 2px;
+  font-size: 15px;
 }

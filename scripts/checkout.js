@@ -1,90 +1,16 @@
-import {products} from '../data/products.js'
-import {cart} from '../data/cart.js';
-import {totalQuantityCalc} from '../data/cart.js';
-import {convretToDollars} from '../utils/price.js'
-let showProductsEl = document.querySelector('.order-summary')
-let cartProdHtml = ''
-let currentProd 
-let totalItemCheck = document.querySelector('.return-to-home-link')
-totalItemCheck.innerHTML = cart.length + ' items'
+import {renderOrderSummary} from './checkout/orderSummary.js'
 
 
-cart.forEach((product)=>{  
-    currentProd = products.find(({id})=>id === product.productId)
+//Randare protiune cu recapitularea comenzii 
 
-    cartProdHtml +=`<div class="cart-item-container">
-            <div class="delivery-date">
-              Delivery date: Tuesday, June 21
-            </div>
-            <div class="cart-item-details-grid">
-              <img class="product-image"
-                src="${currentProd.image}">
+renderOrderSummary()
 
-              <div class="cart-item-details">
-                <div class="product-name">
-                  ${currentProd.name}
-                </div>
-                <div class="product-price">
-                  $${convretToDollars(currentProd.priceCents)}
-                </div>
-                <div class="product-quantity">
-                  <span>
-                    Quantity: <span class="quantity-label">${product.quantity}</span>
-                  </span>
-                  <span class="update-quantity-link link-primary">
-                    Update
-                  </span>
-                  <span class="delete-quantity-link link-primary">
-                    Delete
-                  </span>
-                </div>
-              </div>
-
-              <div class="delivery-options">
-                <div class="delivery-options-title">
-                  Choose a delivery option:
-                </div>
-                <div class="delivery-option">
-                  <input type="radio" checked
-                    class="delivery-option-input"
-                    name="${product.productId}-delivery-option">
-                  <div>
-                    <div class="delivery-option-date">
-                      Tuesday, June 21
-                    </div>
-                    <div class="delivery-option-price">
-                      FREE Shipping
-                    </div>
-                  </div>
-                </div>
-                <div class="delivery-option">
-                  <input type="radio"
-                    class="delivery-option-input"
-                    name="${product.productId}-delivery-option">
-                  <div>
-                    <div class="delivery-option-date">
-                      Wednesday, June 15
-                    </div>
-                    <div class="delivery-option-price">
-                      $4.99 - Shipping
-                    </div>
-                  </div>
-                </div>
-                <div class="delivery-option">
-                  <input type="radio"
-                    class="delivery-option-input"
-                    name="${product.productId}-delivery-option">
-                  <div>
-                    <div class="delivery-option-date">
-                      Monday, June 13
-                    </div>
-                    <div class="delivery-option-price">
-                      $9.99 - Shipping
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>`
-})
-showProductsEl.innerHTML = cartProdHtml
+//Reset button Function For Tests 
+    let resetCartBtn = document.querySelector('.reset-cart')
+    resetCartBtn.addEventListener('click', resetCart)
+    function resetCart(){
+        cart.splice(0,cart.length)
+        saveCartStorage(cart)
+        renderOrdereSummary()
+    
+    }  

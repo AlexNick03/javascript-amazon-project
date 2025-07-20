@@ -1,17 +1,20 @@
 import {products} from '../data/products.js'
-import {cart} from '../data/cart.js';
+import {cart, cartItmeDisplay} from '../data/cart.js';
 import {totalQuantityCalc} from '../data/cart.js';
 import { convretToDollars } from '../utils/price.js';
+import { saveCartStorage } from '../data/cart.js';
 
 const productGridEl = document.querySelector('.products-grid')
 let productHtml = ''
 let itemPrice = 0
-let totalQuantity = 0
+
 let ratingImg =''
-let resetCartBtn = document.querySelector('.reset-cart')
-resetCartBtn.addEventListener('click', resetCart)
+
 let cartTotalQuantity = document.querySelector('.cart-quantity')
-cartTotalQuantity.innerHTML = totalQuantityCalc(totalQuantity)
+
+cartTotalQuantity.innerHTML = cartItmeDisplay(totalQuantityCalc())
+
+//Amazon Page Loader
 products.forEach((value, index) =>{
     itemPrice = convretToDollars(value.priceCents)
     ratingImg = '../images/ratings/rating-'+value.rating.stars*10+'.png'
@@ -66,10 +69,14 @@ products.forEach((value, index) =>{
    
 })
 productGridEl.innerHTML+= productHtml
+
+
 let addConfirmationEls = document.querySelectorAll('.added-to-cart')
 let addButtonsEls = document.querySelectorAll('.add-to-cart-button')
 let choseQuantitySelectors = document.querySelectorAll('.quantity-selector')
 
+
+//Add To Cart Function
 function addToCart(button, index){
   let addedQuantity = choseQuantitySelectors[index].value
       let matchingProduct
@@ -83,20 +90,24 @@ function addToCart(button, index){
       })
       if(matchingProduct){
         matchingProduct.quantity = Number(matchingProduct.quantity) + Number(addedQuantity)
-        localStorage.setItem('cart',JSON.stringify(cart)) 
+        saveCartStorage(cart)
       }
       else{
           cart.push({
               productId: matchingId,
               quantity : addedQuantity})
-          localStorage.setItem('cart',JSON.stringify(cart))    
+          saveCartStorage(cart)  
          }
           
           
-          cartTotalQuantity.innerHTML= totalQuantityCalc(totalQuantity)
-
+          cartTotalQuantity.innerHTML= cartItmeDisplay(totalQuantityCalc())
+          
+          
+         
       }
 
+
+//Add Buttons Assigments     
 addButtonsEls.forEach((button, index)=>{
 
     let intervalId  
@@ -114,8 +125,4 @@ addButtonsEls.forEach((button, index)=>{
 
 })
 
-function resetCart(){
-  localStorage.removeItem('cart')
-  totalQuantity = 0
-  cartTotalQuantity.innerHTML = totalQuantity
-}
+
