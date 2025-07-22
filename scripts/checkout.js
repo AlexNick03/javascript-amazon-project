@@ -1,5 +1,5 @@
 import {renderOrderSummary} from './checkout/orderSummary.js'
-
+import {cart,saveCartStorage } from '../../data/cart.js';
 
 //Randare protiune cu recapitularea comenzii 
 
@@ -11,6 +11,6 @@ renderOrderSummary()
     function resetCart(){
         cart.splice(0,cart.length)
         saveCartStorage(cart)
-        renderOrdereSummary()
+        renderOrderSummary()
     
     }  

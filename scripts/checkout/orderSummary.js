@@ -2,7 +2,7 @@ import {products} from '../../data/products.js'
 import {cart, totalQuantityCalc, saveCartStorage } from '../../data/cart.js';
 import {convretToDollars} from '../../utils/price.js'
 import {deliveryOptions, updateDeliveryOption, deliveryOptionDays} from '../../data/deliveryOptions.js'
-
+import { renderPaymentSummary } from './paymentSummary.js';
 
 
 //Render Order Summary Function
@@ -149,6 +149,6 @@ export function renderOrderSummary(){
 
   })
       
- 
+ renderPaymentSummary()
  
 }
