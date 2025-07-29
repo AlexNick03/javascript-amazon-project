@@ -31,7 +31,7 @@ export function renderPaymentSummary(){
 
           <div class="payment-summary-row">
             <div >Items (${totalQuantityCalc()}):</div>
-            <div class="payment-summary-money">${convretToDollars(totalProdPrice)}</div>
+            <div class="payment-summary-money">$${convretToDollars(totalProdPrice)}</div>
           </div>
 
           <div class="payment-summary-row">

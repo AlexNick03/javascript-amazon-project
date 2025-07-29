@@ -10,7 +10,7 @@ export const deliveryOptions = [
 
 {
     id: '2',
-    deliveryDays: 3,
+    deliveryDays: 5,
     priceCents: 499
 },
 
@@ -35,8 +35,19 @@ export function deliveryOptionDays(deliveryId){
     let chosenDate
     deliveryOptions.forEach((option)=>{
         if (option.id===deliveryId){
-            console.log(deliveryId);
-            chosenDate = today.add(option.deliveryDays,'days').format('dddd, MMMM D')
+            
+            if(today.add(option.deliveryDays,'days').get('day')===0){
+               chosenDate = today.add(option.deliveryDays+1,'days').format('dddd, MMMM D')
+
+            }
+            else if (today.add(option.deliveryDays,'days').get('day')===6){
+               
+               chosenDate = today.add(option.deliveryDays+2,'days').format('dddd, MMMM D')
+            }
+            else {
+              
+               chosenDate = today.add(option.deliveryDays,'days').format('dddd, MMMM D')
+            }
             
         } 
         
