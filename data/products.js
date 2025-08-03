@@ -19,7 +19,23 @@ export function loadProducts(fun){
 }
 
 
-
+export function loadProductsFetch(){
+  const promise  = fetch(
+    'https://supersimplebackend.dev/products'
+  ).then((response)=>{
+    return response.json();
+    
+  }).then((productsData)=>{
+    products = productsData
+    console.log('Load products');
+    
+  })
+  return promise
+}
+/*loadProductsFetch().then(()=>{
+  console.log('Next Step');
+  
+})*/
 
 
 /*export const products = [

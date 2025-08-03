@@ -1,17 +1,13 @@
 import {renderOrderSummary} from './checkout/orderSummary.js'
 import {cart,saveCartStorage } from '../data/cart.js';
-import { loadProducts } from '../data/products.js';
+import { loadProducts, loadProductsFetch } from '../data/products.js';
 import { loadCart } from '../data/cart.js';
 //Randare protiune cu recapitularea comenzii 
 
 //Promise all
 Promise.all([
     
-new Promise((resolve)=>{
-    loadProducts(()=>{
-        resolve('value1');
-    });
-    }),
+    loadProductsFetch(),
 
     new Promise((resolve)=>{
         loadCart(()=>{
