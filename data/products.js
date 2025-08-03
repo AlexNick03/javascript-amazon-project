@@ -1,13 +1,13 @@
 export let  products = []
 
 
-export function loadProducts(renderProductGrid){
+export function loadProducts(fun){
    const xhr = new XMLHttpRequest();
   
    xhr.addEventListener('load', ()=>{
        
        products = JSON.parse(xhr.response)
-       renderProductGrid()
+       fun()
        
        
       })

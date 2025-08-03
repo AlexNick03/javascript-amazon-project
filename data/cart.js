@@ -15,3 +15,20 @@ export function saveCartStorage(cart){
 export function cartItmeDisplay(totalQuantity){
     return (totalQuantity>0) ? totalQuantity : '' 
 }
+export function loadCart(fun){
+   const xhr = new XMLHttpRequest();
+  
+   xhr.addEventListener('load', ()=>{
+       
+       console.log(xhr.response);
+       
+       fun()
+       
+       
+      })
+
+
+   xhr.open('GET', 'https://supersimplebackend.dev/cart')
+   xhr.send();
+   
+}
