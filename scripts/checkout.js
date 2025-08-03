@@ -8,14 +8,22 @@ import { loadCart } from '../data/cart.js';
 //Asyn Await
 
 async function loadPage(){
+    try {
+        //throw 'error1';
+        await  loadProductsFetch();
 
-    await  loadProductsFetch();
-
-    const value = await  new Promise((resolve)=>{ //value 3 
+    const value = await  new Promise((resolve, reject)=>{ //value 3 
         loadCart(()=>{
+            //reject ('error3')
             resolve('Value3')
         });
     })
+    }
+    catch(error) {
+        console.log('Unexpected error');
+        
+    }
+    
     renderOrderSummary()
 
 //Reset button Function For Tests 
