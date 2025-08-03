@@ -1,8 +1,11 @@
-import {products} from '../data/products.js'
+import {products, loadProducts} from '../data/products.js'
 import {cart, cartItmeDisplay} from '../data/cart.js';
 import {totalQuantityCalc} from '../data/cart.js';
 import { convretToDollars } from '../utils/price.js';
 import { saveCartStorage } from '../data/cart.js';
+
+loadProducts(renderProductGrid)
+function renderProductGrid(){
 
 const productGridEl = document.querySelector('.products-grid')
 let productHtml = ''
@@ -125,4 +128,4 @@ addButtonsEls.forEach((button, index)=>{
 
 })
 
-
+}

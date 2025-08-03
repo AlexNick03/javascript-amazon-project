@@ -15,6 +15,7 @@ const cart = {
         return (this.totalQuantityCalc>0) ? this.totalQuantityCalc : '' 
 }
 }
+console.log(cart);
 
 
 

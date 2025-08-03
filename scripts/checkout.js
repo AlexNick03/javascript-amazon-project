@@ -1,9 +1,9 @@
 import {renderOrderSummary} from './checkout/orderSummary.js'
-import {cart,saveCartStorage } from '../../data/cart.js';
-import '../backend/test.js';
+import {cart,saveCartStorage } from '../data/cart.js';
+import { loadProducts } from '../data/products.js';
 //Randare protiune cu recapitularea comenzii 
 
-renderOrderSummary()
+loadProducts(()=>{renderOrderSummary()
 
 //Reset button Function For Tests 
     let resetCartBtn = document.querySelector('.reset-cart')
@@ -13,4 +13,4 @@ renderOrderSummary()
         saveCartStorage(cart)
         renderOrderSummary()
     
-    }  
+    }  })
