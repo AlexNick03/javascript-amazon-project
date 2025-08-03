@@ -4,6 +4,35 @@ import { loadProducts, loadProductsFetch } from '../data/products.js';
 import { loadCart } from '../data/cart.js';
 //Randare protiune cu recapitularea comenzii 
 
+
+//Asyn Await
+
+async function loadPage(){
+
+    await  loadProductsFetch();
+
+    const value = await  new Promise((resolve)=>{ //value 3 
+        loadCart(()=>{
+            resolve('Value3')
+        });
+    })
+    renderOrderSummary()
+
+//Reset button Function For Tests 
+    let resetCartBtn = document.querySelector('.reset-cart')
+    resetCartBtn.addEventListener('click', resetCart)
+    function resetCart(){
+        cart.splice(0,cart.length)
+        saveCartStorage(cart)
+        renderOrderSummary()
+    }
+    
+
+}
+loadPage();
+
+
+/*
 //Promise all
 Promise.all([
     
