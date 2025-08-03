@@ -1,6 +1,6 @@
 import {renderOrderSummary} from './checkout/orderSummary.js'
 import {cart,saveCartStorage } from '../../data/cart.js';
-
+import '../backend/test.js';
 //Randare protiune cu recapitularea comenzii 
 
 renderOrderSummary()
